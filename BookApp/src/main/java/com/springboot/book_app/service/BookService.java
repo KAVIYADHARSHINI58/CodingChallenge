@@ -16,42 +16,47 @@ public class BookService {
 	@Autowired
 	private BookRepo bookRepo;
 
-	public Book addBook(Book book) {
+	public Book add(Book book) {
 		return bookRepo.save(book);
+	}
+
+	public Book findBook(int id) throws InvalidIdException {
+		Optional<Book> optional = bookRepo.findById(id);
+		if(optional.isEmpty()) {
+			throw new InvalidIdException("Invalid ID");
+		}
+		Book book = optional.get();
+		return book;
+		
 	}
 
 	public List<Book> getAll() {
 		return bookRepo.findAll();
 	}
 
-	public Book getBookByISBN(String isbn) throws InvalidIdException {
-		Optional<Book> optional = bookRepo.getBookByISBN(isbn);
-		if(optional.isEmpty()) {
-			throw new InvalidIdException("Invalid ISBN");
-		}
-		Book book = optional.get();
-		return book;
-	}
-
-	public Book updateBook(int id, Book book) throws InvalidIdException {
+	public void deleteBook(int id) throws InvalidIdException {
 		Optional<Book> optional = bookRepo.findById(id);
 		if(optional.isEmpty()) {
-			throw new InvalidIdException("Invalid id");
+			throw new InvalidIdException("Invalid ID");
 		}
-		Book newbook = optional.get();
-		newbook.setAuthor(book.getAuthor());
-		newbook.setTitle(book.getTitle());
-		newbook.setIsbn(book.getIsbn());
-		newbook.setPublicationYear(book.getPublicationYear());
-		return bookRepo.save(newbook);		
+		Book book = optional.get();
+		bookRepo.delete(book);	
 	}
 
-	public void deleteBook(String isbn) throws InvalidIdException {
-		Optional<Book> optional = bookRepo.getBookByISBN(isbn);
+	public Book editBook(int id, Book book) throws InvalidIdException {
+		Optional<Book> optional = bookRepo.findById(id);
 		if(optional.isEmpty()) {
-			throw new InvalidIdException("Invalid ISBN");
+			throw new InvalidIdException("Invalid ID");
 		}
-		bookRepo.deleteByISBN(isbn);
+		Book oldbook = optional.get();
+		oldbook.setCategory(book.getCategory());
+		oldbook.setDescription(book.getDescription());
+		oldbook.setTitle(book.getTitle());
+		oldbook.setPrice(book.getPrice());
+		oldbook.setQty(book.getQty());
+		return bookRepo.save(oldbook);
+				
 	}
 
+	
 }

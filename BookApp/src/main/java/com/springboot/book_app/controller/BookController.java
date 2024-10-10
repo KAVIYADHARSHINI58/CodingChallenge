@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.springboot.book_app.service.BookService;
 
 @RestController
 @RequestMapping("/book")
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class BookController {
 	
 	@Autowired
@@ -27,42 +29,30 @@ public class BookController {
 	
 	@PostMapping("/add")
 	public Book addBook(@RequestBody Book book) {
-		return bookService.addBook(book);
+		return bookService.add(book);
 	}
 	
-	@GetMapping("/getAll")
-	public List<Book> getAllBooks(){
+	@GetMapping("/find/{id}")
+	public ResponseEntity<?> findBook(@PathVariable int id, MessageDto dto){
+		try {
+			Book book = bookService.findBook(id);
+			return ResponseEntity.ok(book);
+		} catch (InvalidIdException e) {
+			dto.setMsg(e.getMessage());
+			return ResponseEntity.badRequest().body(dto);
+		}
+	}
+	
+	@GetMapping("/find/all")
+	public List<Book> getAll(){
 		return bookService.getAll();
 	}
 	
-	@GetMapping("/{isbn}")
-	public ResponseEntity<?> getBookByISBN(@PathVariable String isbn, MessageDto dto) {
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> deleteBook(@PathVariable int id, MessageDto dto) {
 		try {
-			Book book = bookService.getBookByISBN(isbn);
-			return ResponseEntity.ok(book);
-		} catch (InvalidIdException e) {
-			dto.setMsg(e.getMessage());
-			return ResponseEntity.badRequest().body(dto);
-		}
-	}
-	
-	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateBook(@PathVariable int id,@RequestBody Book book, MessageDto dto) {
-		try {
-			book = bookService.updateBook(id,book);
-			return ResponseEntity.ok(book);
-			
-		} catch (InvalidIdException e) {
-			dto.setMsg(e.getMessage());
-			return ResponseEntity.badRequest().body(dto);
-		}
-	}
-	
-	@DeleteMapping("/delete/{isbn}")
-	public ResponseEntity<?> deleteBook(@PathVariable String isbn, MessageDto dto) {
-		try {
-			bookService.deleteBook(isbn);
-			dto.setMsg("Book with isbn "+isbn+" is deleted");
+			bookService.deleteBook(id);
+			dto.setMsg("Book deleted");
 			return ResponseEntity.ok(dto);
 		} catch (InvalidIdException e) {
 			dto.setMsg(e.getMessage());
@@ -70,5 +60,15 @@ public class BookController {
 		}
 	}
 	
-
+	@PutMapping("/edit/{id}")
+	public ResponseEntity<?> editBook(@PathVariable int id, @RequestBody Book book, MessageDto dto){
+		try {
+			book = bookService.editBook(id,book);
+			return ResponseEntity.ok(book);
+		} catch (InvalidIdException e) {
+			dto.setMsg(e.getMessage());
+			return ResponseEntity.badRequest().body(dto);
+		}
+	}
+	
 }

@@ -38,11 +38,12 @@ public class SecurityConfig {
                        .requestMatchers("/admin/hello").hasRole("ADMIN")
                        .requestMatchers("/user/hello").hasAnyRole("ADMIN")
                        
-                       .requestMatchers("/book/add").hasAnyRole("ADMIN")
-                       .requestMatchers("/book/getAll").hasAnyRole("ADMIN")
-                       .requestMatchers("/book/{isbn}").hasAnyRole("ADMIN")
-                       .requestMatchers("/book/update/{id}").hasAnyRole("ADMIN")
-                       .requestMatchers("/book/delete/{isbn}").hasAnyRole("ADMIN")
+                       .requestMatchers("/book/add").permitAll()
+                       .requestMatchers("/book/find/{id}").permitAll()
+                       .requestMatchers("/book/find/all").permitAll()
+                       .requestMatchers("/book/delete/{id}").permitAll()
+                       .requestMatchers("/book/edit/{id}").permitAll()
+                      
                        
                        .anyRequest().authenticated()
                )

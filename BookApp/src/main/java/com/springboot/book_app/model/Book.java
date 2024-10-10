@@ -1,7 +1,11 @@
 package com.springboot.book_app.model;
 
+import com.springboot.book_app.enums.Category;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,73 +18,70 @@ public class Book {
 	private int id;
 	
 	private String title;
-	private String author;
 	
-	@Column(unique = true, nullable = false)
-	private String isbn;
+	@Enumerated(EnumType.STRING)
+	private Category category;
 	
-	private String publicationYear;
+	private double price;
 	
-	public Book() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	@Column(length = 1000)
+	private String description;
 	
-
-	public Book(int id, String title, String author, String isbn, String publicationYear) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.author = author;
-		this.isbn = isbn;
-		this.publicationYear = publicationYear;
-	}
-
+	private int qty;
 
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-	
 
-	public String getIsbn() {
-		return isbn;
+	public Category getCategory() {
+		return category;
 	}
 
-
-	public void setIsbn(String isbn) {
-		this.isbn = isbn;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
-
-	public String getPublicationYear() {
-		return publicationYear;
+	public double getPrice() {
+		return price;
 	}
 
-
-	public void setPublicationYear(String publicationYear) {
-		this.publicationYear = publicationYear;
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getQty() {
+		return qty;
+	}
+
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", isbn=" + isbn + ", publicationYear="
-				+ publicationYear + "]";
+		return "Book [id=" + id + ", title=" + title + ", category=" + category + ", price=" + price + ", description="
+				+ description + ", qty=" + qty + "]";
 	}
 	
+
 }

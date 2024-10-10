@@ -12,13 +12,6 @@ import jakarta.transaction.Transactional;
 
 public interface BookRepo extends JpaRepository<Book, Integer>{
 
-	
-	@Query("select b from Book b where b.isbn=?1")
-	Optional<Book> getBookByISBN(String isbn);
-
-	@Modifying
-	@Transactional
-	@Query("delete from Book b where b.isbn=?1")
-	void deleteByISBN(String isbn);
+  
 
 }
