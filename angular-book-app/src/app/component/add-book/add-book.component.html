@@ -1,0 +1,49 @@
+<app-navbar></app-navbar>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Add New Book
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success" role="alert" *ngIf="successMsg">
+                         {{successMsg}}
+                      </div>
+                      <div class="alert alert-warning" role="alert" *ngIf="errorMsg">
+                        {{errorMsg}}
+                      </div>
+                    <div>
+                        <label>Enter Title: </label>
+                        <input class="form-control" type="text" [(ngModel)]="title" (change)="resetmsg()">
+                    </div>
+                    <div>
+                        <label>Enter Description: </label>
+                        <textarea class="form-control mt-1" type="text" [(ngModel)]="description" (change)="resetmsg()"></textarea>
+                    </div>
+                    <div>
+                        <label>Select Category: </label>
+                        <select class="form-control" [(ngModel)]="category" (change)="resetmsg()">
+                            <option *ngFor="let c of categories" value="{{c}}"> 
+                                {{c}}
+                             </option>
+                        </select>
+                    </div>
+                    <div> 
+                        <label>Enter price: </label>
+                        <input class="form-control" type="number" [(ngModel)]="price" (change)="resetmsg()">
+                    </div>
+                    <div> 
+                        <label>Enter quantity: </label>
+                        <input class="form-control" type="number" [(ngModel)]="qty" (change)="resetmsg()">
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <button (click)="onClick()">Add Book</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+ </div>

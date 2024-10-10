@@ -1,0 +1,52 @@
+<app-navbar></app-navbar>
+<div class="container-fluid mt-4" style= "position: fixed; top: 110px; left: 100px; right: 0; z-index: 1030; height: 60px;">
+    <button type="button" class="btn btn-warning btn-sm" (click)="onAdd()">Add New Book</button>
+    <div class="row">
+        <div class="col-md-10 mt-4">
+            <div class="alert alert-danger" role="alert" *ngIf="deleteMsg">
+                {{deleteMsg}}
+             </div>
+                <table id="example" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Title</th>
+                            <th class="text-center">Category</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let book of books">
+                          <td class="text-center">{{book.id}}</td>
+                          <td class="text-center" (click)="OnTitleClick(book.id)">{{book.title}}</td>
+                          <td class="text-center">{{book.category}}</td>
+                          <td class="text-center">{{book.price}}</td>
+                          <td class="text-center">{{book.qty}}</td>
+                          <td class="text-center">
+                            <button type="button" class="btn btn-info btn-sm" (click)="onEdit(book.id)" >Edit</button> 
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-danger btn-sm" (click)="onDelete(book.id)">Delete</button>
+                          </td>
+                        </tr>
+                    </tbody>   
+                </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                      <li class="page-item">
+                        <button class="page-link"  [disabled]="first == true" (click)="onPrev()"> Prev</button>
+                      </li>
+                      <span *ngFor="let n of numArray">
+                        <button class="page-link"   (click)="onPageNumberClick(n)"> {{n+1}}</button>
+                      </span>
+      
+      
+                      <li class="page-item">
+                        <button class="page-link"  [disabled]="last == true" (click)="onNext()"> Next</button>
+                      </li>
+                    </ul>
+                  </nav>
+        </div>
+    </div>
+</div>
