@@ -80,15 +80,5 @@ public class BookService {
 		
 	}
 
-	public String getDescription(int id) throws InvalidIdException {
-		Optional<Book> optional = bookRepo.findById(id);
-		if(optional.isEmpty()) {
-			throw new InvalidIdException("Invalid ID");
-		}
-		Book book = optional.get();
-		String description = bookRepo.findDescription(id);
-		return description;		
-	}
-
 	
 }

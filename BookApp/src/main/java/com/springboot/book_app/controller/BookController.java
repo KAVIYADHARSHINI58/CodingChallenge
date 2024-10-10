@@ -90,16 +90,6 @@ public class BookController {
 		}
 	}
 	
-	@GetMapping("/description/{id}")
-	public ResponseEntity<?> getDescription(@PathVariable int id, MessageDto dto){
-		try {
-			String description = bookService.getDescription(id);
-			dto.setMsg(description);
-			return ResponseEntity.ok(dto);
-		} catch (InvalidIdException e) {
-			dto.setMsg(e.getMessage());
-			return ResponseEntity.badRequest().body(dto);
-		}
-	}
+
 	
 }

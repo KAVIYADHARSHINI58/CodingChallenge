@@ -12,9 +12,4 @@ import jakarta.transaction.Transactional;
 
 public interface BookRepo extends JpaRepository<Book, Integer>{
 
-	@Query("select b.description from Book b where b.id=?1 ")
-	String findDescription(int id);
-
-  
-
 }
